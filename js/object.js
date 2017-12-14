@@ -112,16 +112,24 @@ class Mothership {
         // Prepare missiles array
         this.missiles = new THREE.Group();
         this.prepareMissiles(5);
+        this.prepareShips(1);
         this.speed = 1;
         // Add to scene
         scene.add(this.mothership);
         scene.add(this.missiles);
     }
 
-    // Create missils
+    // Create missiles
     prepareMissiles(missileNum) {
         for (var i = 0; i < missileNum; i++) {
             this.missiles.add(new BadMissile((Math.random() * 20 - 10) * 45, 330, -50 + Math.random() * 2).missile);
+        }
+    }
+
+    // Create spaceships
+    prepareShips(shipNum) {
+        for (var i = 0; i < shipNum; i++) {
+            this.missiles.add(new Spaceship(-400, 200, -50).missile);
         }
     }
 
@@ -129,6 +137,13 @@ class Mothership {
         for (var i in this.missiles.children) {
             var missile = this.missiles.children[i];
             missile.translateX(this.speed);
+            if (missile.position.x > 600) {
+                missile.position.x = 598;
+                missile.rotateZ(Math.PI);
+            } else if (missile.position.x < -600) {
+                missile.position.x = -598;
+                missile.rotateZ(Math.PI);
+            }
             if (missile.position.y < -320) {
                 this.missiles.remove(missile);
             }
@@ -189,12 +204,44 @@ class BadMissile {
         this.missile.position.z = z;
     }
 
-    // Move the missile by one speed unit
-    move() {
-        if (this.missile !== null) {
-            this.missile.translateX(this.speed)
-        }
+}
+
+
+// Nyan cat missile
+class Spaceship {
+
+    constructor(x, y, z) {
+        // BadMissile body
+        this.missile = buildNyanCat(0, 0, 0);
+        this.setPosition(x, y, z);
+        this.missile.scale.set(3, 3, 3);
+        // Generate a random direction
+        this.direction = new THREE.Vector3(1, 0, 0).normalize();
+        // Rotate to the direction
+        this.missile.rotateZ(-this.direction.angleTo(new THREE.Vector3(1, 0, 0)));
+        // Init speed
+        this.speed = 1;
     }
+
+    // Set position
+    setPosition(x, y, z) {
+        this.setPositionX(x);
+        this.setPositionY(y);
+        this.setPositionZ(z);
+    }
+    // Set position x
+    setPositionX(x) {
+        this.missile.position.x = x;
+    }
+    // Set position y
+    setPositionY(y) {
+        this.missile.position.y = y;
+    }
+    // Set position z
+    setPositionZ(z) {
+        this.missile.position.z = z;
+    }
+
 
 }
 

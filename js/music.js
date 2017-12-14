@@ -10,7 +10,7 @@ backgroundMusic.play();
 
 boomSound.src = './audio/boom.mp3';
 boomSound.loop = false;
-boomSound.volume = 0.5;
+boomSound.volume = 0.4;
 //boomSound.play();
 //boomSound.pause();
 
