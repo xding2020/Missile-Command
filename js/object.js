@@ -149,7 +149,7 @@ class Mothership {
             }
             for (var l in city.buildings.children) {
                 var building = city.buildings.children[l];
-                if (missile.position.distanceTo(building.position) < 150) {
+                if (missile.position.distanceTo(building.position) < 100) {
                     this.missiles.remove(missile);
                     city.buildings.remove(building);
                     boomSound.play();
